@@ -20,11 +20,11 @@ Or install it yourself as:
 
 ## Usage
 
-  require 'knowtify'
+    require 'knowtify'
 
-  ENV['KNOWTIFY_API_TOKEN'] = 'MySuperSecretKey'
+    ENV['KNOWTIFY_API_TOKEN'] = 'MySuperSecretKey'
   
-  new_contacts = [{
+    new_contacts = [{
                         "name" => "John",
                         "email" => "john@test.com",
                         "data" => {
@@ -42,9 +42,9 @@ Or install it yourself as:
                           "role" => "Editor"
                         }
               }]
-  client = Knowtify::Client.new
-  resp = client.contacts_upsert(new_contacts) # <Knowtify::Response:0x007fdb629e5c10>
-  resp.successful? # true
+    client = Knowtify::Client.new
+    resp = client.contacts_upsert(new_contacts) # <Knowtify::Response:0x007fdb629e5c10>
+    resp.successful? # true
 
 ## Contributing
 
