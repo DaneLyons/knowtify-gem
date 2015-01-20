@@ -6,11 +6,11 @@ require 'knowtify/version'
 Gem::Specification.new do |spec|
   spec.name          = "knowtify"
   spec.version       = Knowtify::VERSION
-  spec.authors       = ["Joshua Mckinney"]
-  spec.email         = ["joshmckin@gmail.com"]
-  spec.summary       = %q{Knowtify api gem}
-  spec.description   = %q{Knowtify api gem}
-  spec.homepage      = ""
+  spec.authors       = ["Joshua Mckinney","Dane Lyons"]
+  spec.email         = ["joshmckin@gmail.com","dane@knowtify.io"]
+  spec.summary       = "Smart emails to engage your users"
+  spec.description   = "Knowtify helps you design and deliver transactional, behavioral and digest emails to engage your users."
+  spec.homepage      = "http://www.knowtify.io"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0")
