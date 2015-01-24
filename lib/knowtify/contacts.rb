@@ -42,7 +42,7 @@ module Knowtify
 
     def valid?(for_delete=false)
       @errors = []
-      @errors << "There are invalid contacts." if !@invalid_contacts.empty? && !Knowtify.config.ingore_invalid_contacts?
+      @errors << "There are invalid contacts." if !@invalid_contacts.empty? && !config.ingore_invalid_contacts?
       @errors << "There are no valid contacts" if @contacts.empty?
       if @response
         if @response.authentication_error?
