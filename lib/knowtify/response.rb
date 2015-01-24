@@ -2,7 +2,7 @@ module Knowtify
   class Response
     attr_accessor :body, :http_code, :raw_response, :count
 
-    ERROR_HTTP_CODES = [500,501,502,503,504,505,429,0]
+    ERROR_HTTP_CODES = [500,501,502,503,504,505,429,0].freeze 
 
     def initialize(count=0)
       @count = count || 0
@@ -18,6 +18,10 @@ module Knowtify
 
     def successful?
       http_code == 200
+    end
+
+    def authentication_error?
+      http_code == 401
     end
 
   end

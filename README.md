@@ -20,6 +20,7 @@ Or install it yourself as:
 
 ## Usage
 
+### Client
     require 'knowtify'
 
     ENV['KNOWTIFY_API_TOKEN'] = 'MySuperSecretKey'
@@ -43,8 +44,53 @@ Or install it yourself as:
                         }
               }]
     client = Knowtify::Client.new
-    resp = client.contacts_upsert(new_contacts) # <Knowtify::Response:0x007fdb629e5c10>
-    resp.successful? # true
+    resp = client.contacts_create_or_update(new_contacts) # => <Knowtify::Response:0x007fdb629e5c10>
+    resp.successful? # => true
+
+
+### Contact
+Knowity::Contact can be initialized with JSON or hash.   
+
+    data = {
+              "name" => "John",
+              "data" => {
+                "category" => "sports",
+                "followers" => 300
+            }
+            
+    Knowtify.config.ingore_invalid_contacts = false # default is true
+    contact = Knowtify::Contact.new(data) 
+    contact.save      # => false
+    contact.errors    # => [Email is blank.]
+    Knowtify.config.ingore_invalid_contacts = true
+    contact.save      # => true
+    contact.delete    # => true
+
+### Contacts
+Knowity::Contacts can be initialized with JSON, an array of hashes or an array of Knowtify::Contact objects. 
+
+    new_contacts = [{
+                        "name" => "John",
+                        "email" => "john@test.com",
+                        "data" => {
+                          "category" => "sports",
+                          "followers" => 300
+                        }
+                      },
+                      {
+                        "name" => "Samuel",
+                        "email" => ""
+                  }] 
+
+    Knowtify.config.ingore_invalid_contacts = false # default is true
+    contacts = Knowtify::Contact.new(data) 
+    contacts.save             # => false
+    contacts.errors           # => ["There are invalid contacts."]
+    Knowtify.config.ingore_invalid_contacts = true
+    contacts.save             # => true
+    contacts.invalid_contacts # => [<Knowtify::Contact:0x007fdb629e5c10>]
+    contacts.delete           # => true
+
 
 ## Contributing
 
