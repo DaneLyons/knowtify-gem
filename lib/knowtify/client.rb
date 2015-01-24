@@ -31,7 +31,7 @@ module Knowtify
     #     }
     #   }
     # ]
-    def contacts_upsert(contacts=[],request_options={},api_key=nil)
+    def contacts_create_or_update(contacts=[],request_options={},api_key=nil)
       options = {
         :path => "#{config.base_path}/contacts/upsert",
         :params => {:contacts => contacts},
@@ -41,6 +41,7 @@ module Knowtify
       request = Knowtify::Request.new(options)
       handler.post(request)
     end
+    alias :contacts_upsert :contacts_create_or_update
 
     # POST /contacts/delete
     # Sends a request to delete contacts whose 
