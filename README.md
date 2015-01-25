@@ -58,13 +58,12 @@ Knowity::Contact can be initialized with JSON or hash.
                 "followers" => 300
             }
             
-    Knowtify.config.ingore_invalid_contacts = false # default is true
     contact = Knowtify::Contact.new(data) 
-    contact.save      # => false
-    contact.errors    # => [Email is blank.]
-    Knowtify.config.ingore_invalid_contacts = true
-    contact.save      # => true
-    contact.delete    # => true
+    contact.save                    # => false
+    contact.errors                  # => [Email is blank.]
+    contact.email = "john@test.com"
+    contact.save                    # => true
+    contact.delete                  # => true
 
 ### Contacts
 Knowity::Contacts can be initialized with JSON, an array of hashes or an array of Knowtify::Contact objects. 
@@ -86,9 +85,9 @@ Knowity::Contacts can be initialized with JSON, an array of hashes or an array o
     contacts = Knowtify::Contact.new(data) 
     contacts.save             # => false
     contacts.errors           # => ["There are invalid contacts."]
+    contacts.invalid_contacts # => [<Knowtify::Contact:0x007fdb629e5c10>]
     Knowtify.config.ingore_invalid_contacts = true
     contacts.save             # => true
-    contacts.invalid_contacts # => [<Knowtify::Contact:0x007fdb629e5c10>]
     contacts.delete           # => true
 
 

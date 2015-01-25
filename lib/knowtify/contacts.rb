@@ -2,11 +2,11 @@ module Knowtify
   class Contacts
     include Helper
 
-    attr_accessor :contacts,
-      :invalid_contacts,
-      :http_request_options,
-      :api_key,
-      :response
+    attr_accessor :contacts,  # Array - can be JSON, array of hashes or array of Knowtify::Contact objects
+      :invalid_contacts,      # Array - contains contacts that fail validation
+      :http_request_options,  # Hash  - options for request
+      :api_key,               # String  - Not required if ENV['KNOWTIFY_API_TOKEN'] is set
+      :response               # Knowtify::Response object
 
     def initialize(contacts = [],opts={})
       @contacts = []
@@ -55,7 +55,7 @@ module Knowtify
     end
 
     def save
-      @response = client.contacts_create_or_update(contacts.collect(&:to_hash)) if valid?
+      @response = client.contacts_create_or_update(contacts.collect(&:to_hash),http_request_options,api_key) if valid?
       valid?
     end
 
@@ -64,8 +64,8 @@ module Knowtify
     end
 
     def delete
-      @response = client.delete(emails) if valid?
-      valid?
+      @response = client.contacts_delete(emails,http_request_options,api_key) if valid?(true)
+      valid?(true)
     end
 
   end

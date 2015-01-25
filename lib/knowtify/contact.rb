@@ -1,7 +1,12 @@
 module Knowtify
   class Contact
     include Helper
-    attr_accessor :name, :email, :data,:http_request_options, :api_key, :response
+    attr_accessor :name,      # String 
+      :email,                 # String  - REQUIRED
+      :data,                  # Hash 
+      :http_request_options,  # Hash    - options for request
+      :api_key,               # String  - Not required if ENV['KNOWTIFY_API_TOKEN'] is set
+      :response               # Knowtify::Response object
 
     def initialize(args={})
       args = JSON.parse(args) if args.is_a?(String)
@@ -65,8 +70,8 @@ module Knowtify
     end
 
     def delete
-      @response = client.delete([email],http_request_options,api_key) if valid?
-      valid?
+      @response = client.contacts_delete([email],http_request_options,api_key) if valid?(true)
+      valid?(true)
     end
   end
 end

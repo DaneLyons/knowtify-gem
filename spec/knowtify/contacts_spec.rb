@@ -94,4 +94,19 @@ describe Knowtify::Contacts do
       end
     end
   end
+
+  describe '#save' do
+    it "should work" do
+      contact = Knowtify::Contacts.new(valid_args)
+      expect(contact.save).to eql(true)
+    end
+  end
+
+  describe '#delete' do
+    it "should work" do
+      contact = Knowtify::Contacts.new(valid_args)
+      contact.save
+      expect(contact.delete).to eql(true)
+    end
+  end
 end
