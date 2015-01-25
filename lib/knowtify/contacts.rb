@@ -48,7 +48,11 @@ module Knowtify
         if @response.authentication_error?
           add_authenication_error
         else
-          @errors << "#{@contacts.length - parsed_response['successes']} contacts failed to #{for_delete ? 'delete' : 'create/update'}" unless parsed_response['successes'] == @contacts.length
+          unless parsed_response['successes'] == @contacts.length
+            action = (for_delete ? 'delete' : 'create/update')
+            Knowtify.logger.error "Knowtify contacts #{action} operation failed: #{response.body}." if Knowtify.logger
+            @errors << "#{@contacts.length - parsed_response['successes']} contacts failed to #{action}"
+          end
         end
       end
       @errors.empty?

@@ -1,9 +1,9 @@
 module Knowtify
   class Contact
     include Helper
-    attr_accessor :name,      # String 
+    attr_accessor :name,      # String
       :email,                 # String  - REQUIRED
-      :data,                  # Hash 
+      :data,                  # Hash
       :http_request_options,  # Hash    - options for request
       :api_key,               # String  - Not required if ENV['KNOWTIFY_API_TOKEN'] is set
       :response               # Knowtify::Response object
@@ -58,14 +58,20 @@ module Knowtify
         if @response.authentication_error?
           add_authenication_error
         else
-          @errors << "Contact failed to #{for_delete ? "delete" : "create/update"}" unless parsed_response['successes'] == 1
+          unless parsed_response['successes'] == 1
+            action = (for_delete ? 'delete' : 'create/update')
+            Knowtify.logger.error "Knowtify contacts #{action} operation failed: #{response.body}." if Knowtify.logger
+            @errors << "Contact failed to #{action}"
+          end
         end
       end
       @errors.empty?
     end
 
     def save
-      @response = client.contacts_create_or_update([to_hash],http_request_options,api_key) if valid?
+      if valid?
+        @response = client.contacts_create_or_update([to_hash],http_request_options,api_key)
+      end
       valid?
     end
 

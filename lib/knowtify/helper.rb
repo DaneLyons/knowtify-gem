@@ -1,5 +1,6 @@
 module Knowtify
   module Helper
+    AUTHENTICATION_ERROR_MESSAGE = "Knowtify response had authentication error, check your API key.".freeze
     attr_accessor :errors, :response
     def errors
       @errors ||= []
@@ -15,8 +16,9 @@ module Knowtify
     end
 
     def add_authenication_error
+      Knowtify.logger.error AUTHENTICATION_ERROR_MESSAGE if Knowtify.logger
       @errors ||= []
-      @errors << "Response had authentication error, check you API key."
+      @errors << AUTHENTICATION_ERROR_MESSAGE
     end
 
     def blank_string?(str)

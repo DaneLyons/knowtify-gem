@@ -7,7 +7,8 @@ module Knowtify
       :http_client_options,     # Hash    - Additional options to pass to the HTTP client
       :debug,                   # Boolean - Default is false
       :handler,                 # Symbol  - Default is :excon
-      :ingore_invalid_contacts  # Boolean - Default is true; when performing Knowtify::Contacts operations (Batch)
+      :ingore_invalid_contacts, # Boolean - Default is true; when performing Knowtify::Contacts operations (Batch)
+      :logger                   # Object  - Default is Rails.logger if defined, nil disables
 
     HANDLERS = {
       :excon => Knowtify::ExconHandler
@@ -22,6 +23,7 @@ module Knowtify
       @debug                    = false
       @handler                  = :excon
       @ingore_invalid_contacts  = true
+      @logger                   = Rails.logger if defined?(Rails.logger) 
     end
 
     def base_path

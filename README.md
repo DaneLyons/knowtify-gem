@@ -20,6 +20,15 @@ Or install it yourself as:
 
 ## Usage
 
+### Configuration
+Common configuration options that can be set in a Rails initializer if necessary.
+
+
+    Knowtify.config.api_key   = "MySecreteKey"      # => Defaults to ENV['KNOWTIFY_API_TOKEN']
+    Knowtify.config.logger    = Logger.new(STDOUT)  # => Defaults to Rails.logger if available, nil disables
+    Knowtify.config.debug     = true                # => Default is false
+
+
 ### Client
     require 'knowtify'
 

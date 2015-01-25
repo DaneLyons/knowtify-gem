@@ -16,5 +16,9 @@ module Knowtify
     def config
       @config ||= Knowtify::Config.new
     end
+
+    def logger
+      config.logger
+    end
   end
 end
