@@ -1,14 +1,16 @@
 require 'spec_helper'
-describe Knowtify::Contact do
 
+describe Knowtify::Contact do
 
   let(:valid_args) do
     {'name' => 'foo',
-     'email' => 'foo@test.com',
-     'data' => {'baz' => 1,
-                'boo' => 2,
-                'zap' => 3}
-     }
+      'email' => 'foo@test.com',
+      'data' => {
+        'baz' => 1,
+        'boo' => 2,
+        'zap' => 3
+      }
+    }
   end
 
   context 'attr_accessors' do
@@ -69,30 +71,44 @@ describe Knowtify::Contact do
         expect(contact.errors.length).to eql(1)
       end
     end
+    context "response shows action successes" do
+      it 'should not have error' do
+        contact = Knowtify::Contact.new(valid_args)
+        contact.response = Knowtify::Response.new
+        contact.response.http_code = 200
+        contact.response.body = successful_response
+
+        expect(contact).to be_valid
+        expect(contact.errors.length).to eql(0)
+      end
+    end
     context "response shows action failed" do
       it "should have error" do
         contact = Knowtify::Contact.new(valid_args)
         contact.response = Knowtify::Response.new
         contact.response.http_code = 200
-        contact.response.body = "{\"status\":\"received\",\"contacts\":1,\"successes\":0,\"errors\":1}"
+        contact.response.body = error_response
         expect(contact).to_not be_valid
         expect(contact.errors.length).to eql(1)
       end
     end
   end
-  
-  describe '#save' do
-    it "should work" do
-      contact = Knowtify::Contact.new(valid_args)
-      expect(contact.save).to eql(true)
-    end
-  end
 
-  describe '#delete' do
-    it "should work" do
-      contact = Knowtify::Contact.new(valid_args)
-      contact.save
-      expect(contact.delete).to eql(true)
+  if Knowtify::Config.new.api_key
+    describe '#save' do
+      it "should work" do
+        puts
+        contact = Knowtify::Contact.new(valid_args)
+        expect(contact.save).to eql(true)
+      end
+    end
+
+    describe '#delete' do
+      it "should work" do
+        contact = Knowtify::Contact.new(valid_args)
+        contact.save
+        expect(contact.delete).to eql(true)
+      end
     end
   end
 end
