@@ -54,9 +54,9 @@ describe Knowtify::Contacts do
   end
 
   describe '#to_json' do
-    it 'should to work' do 
+    it 'should to work' do
     	contact = Knowtify::Contacts.new(invalid_args)
-    	expect(contact.to_json).to eql({'contacts' => [valid_contact_hash]}.to_json) 
+    	expect(contact.to_json).to eql({'contacts' => [valid_contact_hash]}.to_json)
     end
   end
 
@@ -88,25 +88,28 @@ describe Knowtify::Contacts do
         contact = Knowtify::Contacts.new(valid_args)
         contact.response = Knowtify::Response.new
         contact.response.http_code = 200
-        contact.response.body = "{\"status\":\"received\",\"contacts\":1,\"successes\":0,\"errors\":1}"
+        contact.response.body = error_response
         expect(contact).to_not be_valid
         expect(contact.errors.length).to eql(1)
       end
     end
   end
 
-  describe '#save' do
-    it "should work" do
-      contact = Knowtify::Contacts.new(valid_args)
-      expect(contact.save).to eql(true)
+  # tests assume ENV['KNOWTIFY_API_TOKEN'] is valid
+  if ENV['KNOWTIFY_API_TOKEN']
+    describe '#save' do
+      it "should work" do
+        contact = Knowtify::Contacts.new(valid_args)
+        expect(contact.save).to eql(true)
+      end
     end
-  end
 
-  describe '#delete' do
-    it "should work" do
-      contact = Knowtify::Contacts.new(valid_args)
-      contact.save
-      expect(contact.delete).to eql(true)
+    describe '#delete' do
+      it "should work" do
+        contact = Knowtify::Contacts.new(valid_args)
+        contact.save
+        expect(contact.delete).to eql(true)
+      end
     end
   end
 end
